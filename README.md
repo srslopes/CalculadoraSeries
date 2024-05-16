@@ -1,5 +1,7 @@
-﻿CALCULADORA DE SÉRIES
-
+CALCULADORA DE SÉRIES  
+Demo:
+https://calculadoraseries-dpe9nt6kl-srslopes-projects.vercel.app  
+  
 Calcule quanto tempo da sua vida foi gasto assistindo series.  
 Digite o nome da série desejada para o sistema procurá-la na base de dados, selecione entre as opções adequadas para adicioná-la a sua lista.  
 Para cada série adicionada ou removida o total de tempo assistido é atualizado.  
