@@ -1,5 +1,3 @@
-import {Temporada} from './temporada.entity';
-
 export interface SerieAPI {
     id: number;
     name: string;

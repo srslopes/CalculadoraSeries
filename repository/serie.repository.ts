@@ -1,7 +1,4 @@
-import ResolvingViewport from 'next/dist/lib/metadata/types/metadata-interface.js';
-
 import {SerieDatasource} from '@/datasource.ts/serie.datasource';
-import {DuracaoConvertida} from '@/entity/duracaoconvertida.entity';
 import {EpisodioAPI} from '@/entity/episodio.api.entity';
 import {Episodio} from '@/entity/episodio.entity';
 import {SerieAPI} from '@/entity/serie.api.entity';

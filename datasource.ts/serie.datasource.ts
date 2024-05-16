@@ -1,7 +1,3 @@
-import useSWR from 'swr';
-
-import {SerieAPI} from '@/entity/serie.api.entity';
-
 export class SerieDatasource {
     public SerieDatasource() {}
 
