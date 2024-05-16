@@ -1,6 +1,7 @@
 import ResolvingViewport from 'next/dist/lib/metadata/types/metadata-interface.js';
 
 import {SerieDatasource} from '@/datasource.ts/serie.datasource';
+import {DuracaoConvertida} from '@/entity/duracaoconvertida.entity';
 import {EpisodioAPI} from '@/entity/episodio.api.entity';
 import {Episodio} from '@/entity/episodio.entity';
 import {SerieAPI} from '@/entity/serie.api.entity';
@@ -11,9 +12,9 @@ import {Temporada} from '@/entity/temporada.entity';
 export class SerieRepository {
     public SerieRepository() {}
 
-    public buscarTitulos(titulo: string): Serie[] {
+    public async buscarTitulos(titulo: string): Promise<Serie[]> {
         const datasource = new SerieDatasource();
-        const resultado: any = datasource.getTitulos(titulo);
+        const resultado: any = await datasource.getTitulos(titulo);
         let series: Serie[] = new Array();
         if (!resultado) return series;
         const vetor: any[] = resultado['results'];
@@ -31,7 +32,6 @@ export class SerieRepository {
 
     public async buscarSerie(id: number) {
         console.log(`id:`);
-        console.log(id);
         const datasource = new SerieDatasource();
         let resultado: SerieAPI = await datasource.getSerie(id);
         if (!resultado) console.log('not working');
@@ -39,8 +39,19 @@ export class SerieRepository {
         let serie: Serie = {
             id: id,
             titulo: resultado.name,
-            imagemUrl: resultado.poster_path,
+            imagemUrl:
+                'https://image.tmdb.org/t/p/w342' + resultado.poster_path,
         };
+        let duracaoMedia = 0;
+        if (resultado['episode_run_time']) {
+            let soma = 0;
+            for (let i = 0; i < resultado['episode_run_time'].length; i++) {
+                soma += resultado['episode_run_time'][i];
+            }
+            duracaoMedia = Math.trunc(
+                soma / resultado['episode_run_time'].length,
+            );
+        }
         const tamanho = resultado.seasons.length;
         let temporadas: Temporada[] = new Array(tamanho);
         let duracaoTotal = 0;
@@ -55,8 +66,11 @@ export class SerieRepository {
             let episodios: Episodio[] = new Array(tamanho);
             let duracaoTemporada = 0;
             for (let j = 0; j < tamanhoTemporada; j++) {
+                let valor = duracaoMedia;
+                if (busca.episodes[j]['runtime'])
+                    valor = busca.episodes[j]['runtime'];
                 const episodio: Episodio = {
-                    duracao: busca.episodes[j]['runtime'],
+                    duracao: valor,
                 };
                 console.log(`titulo: ${busca.episodes[j]['name']}`);
                 console.log(`        ${episodio.duracao} min`);
@@ -67,10 +81,11 @@ export class SerieRepository {
                 id: busca.episodes[i]['id'],
                 duracao: duracaoTemporada,
             };
-            console.log(`        total:${temporada.duracao} min`);
+            console.log(`total:${temporada.duracao} min`);
             duracaoTotal += temporada.duracao;
             temporadas[i] = temporada;
         }
+        serie.temporadas = temporadas;
         serie.duracao = duracaoTotal;
         console.log(`duracao: ${duracaoTotal}`);
         let total = serie.duracao;
@@ -78,7 +93,20 @@ export class SerieRepository {
         total = total % 1440;
         let horas = Math.trunc(total / 60);
         total = total % 60;
+        serie.duracaoConvertida = {dias: dias, horas: horas, minutos: total};
         console.log(`${dias} dias, ${horas} horas, ${total} minutos`);
         return serie;
     }
+
+    private busca: any = (caminho: string) => {
+        fetch(caminho, {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: `${process.env.TMDB_AUTHORIZATION}`,
+            },
+        })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+    };
 }

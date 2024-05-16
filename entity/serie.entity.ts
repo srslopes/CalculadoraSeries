@@ -1,3 +1,4 @@
+import {DuracaoConvertida} from './duracaoconvertida.entity';
 import {Temporada} from './temporada.entity';
 
 export interface Serie {
@@ -6,4 +7,5 @@ export interface Serie {
     imagemUrl?: string;
     temporadas?: Temporada[];
     duracao?: number;
+    duracaoConvertida?: DuracaoConvertida;
 }

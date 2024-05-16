@@ -5,4 +5,5 @@ export interface SerieAPI {
     name: string;
     poster_path: string;
     seasons: any[];
+    episode_run_time?: any[];
 }

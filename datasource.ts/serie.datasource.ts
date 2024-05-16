@@ -6,22 +6,19 @@ export class SerieDatasource {
     public SerieDatasource() {}
 
     public async getTitulos(titulo: string) {
-        const url = `${process.env.TMDB_SEARCH?.replace('{{titulo}}', titulo)}`;
+        const url: string = `https://api.themoviedb.org/3/search/tv?query=${titulo}&include_adult=false&language=en-US&page=1`;
         const resposta = await this.buscar(url);
         return resposta;
     }
 
     public async getSerie(id: number) {
-        const url = `${process.env.TMDB_SERIE?.replace('{{id}}', `${id}`)}`;
+        const url = `https://api.themoviedb.org/3/tv/${id}`;
         const resposta = await this.buscar(url);
         return resposta;
     }
 
     public async getTemporada(id: number, temporada: number) {
-        const url = `${process.env.TMDB_SERIE?.replace(
-            '{{id}}',
-            `${id}`,
-        )}/season/${temporada}`;
+        const url = `https://api.themoviedb.org/3/tv/${id}/season/${temporada}`;
         const resposta = await this.buscar(url);
         return resposta;
     }
@@ -32,30 +29,15 @@ export class SerieDatasource {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
-                    Authorization: `${process.env.TMDB_AUTHORIZATION}`,
+                    Authorization:
+                        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMTBkMjViZTdlNTM5MzI2MzliYTI5NGE4NTEwODhhMSIsInN1YiI6IjY2M2Y3M2Y1MTgwYjBkZDllOGI2MWFhZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.J3h3rM8RbG73bF0YI9Io9Bb_YuuAQC3whGPuMLotw2k',
                 },
             });
             const json = await resposta.json();
             return json;
         } catch (error) {
+            console.log(error);
             return null;
         }
     }
-}
-
-export default function Buscar(caminho: string) {
-    let resultado;
-    const {data} = useSWR(caminho, async (url: string) => {
-        return await fetch(url, {
-            headers: {
-                accept: 'application/json',
-                Authorization: `${process.env.TMDB_AUTHORIZATION}`,
-            },
-        }).then(async (res) => {
-            resultado = await res.json();
-            console.log('resultado');
-            console.log(resultado);
-        });
-    });
-    return data;
 }
