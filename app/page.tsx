@@ -78,7 +78,10 @@ export default function Home() {
     }
 
     return (
-        <div className='bg-slate-950'>
+        <div className='
+            bg-slate-950
+            w-screen
+            h-screen'>
             <div className='
                 w-screen
                 h-screen
