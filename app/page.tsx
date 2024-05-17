@@ -78,8 +78,8 @@ export default function Home() {
     }
 
     return (
-        <div>
-            <div className='bg-black'>
+        <div className='bg-slate-950'>
+            <div className='bg-slate-950'>
                 <div
                     className='
                     Cabeçalho
