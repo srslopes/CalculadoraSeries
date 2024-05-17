@@ -331,7 +331,7 @@ export default function Home() {
                 </div>
             </div>
             <Link href={'/sobre'}>
-                <div className='absolute top-0 right-0 m-4 flex items-center ps-3 cursor-pointer className='bg-slate-950'>'>
+                <div className='absolute top-0 right-0 m-4 flex items-center ps-3 cursor-pointer bg-slate-950'>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         width='16'
