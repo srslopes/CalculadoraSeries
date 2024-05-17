@@ -79,7 +79,7 @@ export default function Home() {
 
     return (
         <div>
-            <div>
+            <div className='bg-black'>
                 <div
                     className='
                     Cabeçalho
@@ -90,7 +90,6 @@ export default function Home() {
                     h-auto
                     flex flex-col
                     items-center
-                    bg-black
                     '
                 >
                     <div
