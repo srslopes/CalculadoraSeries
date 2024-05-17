@@ -90,6 +90,7 @@ export default function Home() {
                     h-auto
                     flex flex-col
                     items-center
+                    bg-black
                     '
                 >
                     <div
