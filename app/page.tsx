@@ -79,7 +79,10 @@ export default function Home() {
 
     return (
         <div className='bg-slate-950'>
-            <div className='bg-slate-950'>
+            <div className='
+                w-screen
+                h-screen
+                bg-slate-950'>
                 <div
                     className='
                     Cabeçalho
